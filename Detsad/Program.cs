@@ -20,6 +20,7 @@ namespace Detsad
             parseSite.Khabarovsk();
             parseSite.A2b2ru();
             parseSite.Sevastopol();
+            parseSite.Ote4estvo();
             parseSite.ExcelFile();
         }
     }
@@ -159,6 +160,46 @@ namespace Detsad
                         }
                         Liste.Add(new Parse { Name = name, Email = email });
                     }
+                }
+            }
+        }
+        public void Ote4estvo()
+        {
+            for (int i = 1; i <= 50; i++)
+            {
+                WebClient client = new WebClient() { Encoding = Encoding.GetEncoding(1251) };
+                string s = client.DownloadString("http://www.ote4estvo.ru/sadik/russia/page/" + i + "/");
+                client.Dispose();
+                string name = "", email = "";
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(s);
+                HtmlNodeCollection all = doc.DocumentNode.SelectNodes("//div[@class='short-story-block']");
+                if (all != null)
+                {
+                    foreach (HtmlNode n in all)
+                    {
+                        HtmlDocument docc = new HtmlDocument();
+                        docc.LoadHtml(n.InnerHtml);
+                        HtmlNode nodes = docc.DocumentNode.SelectSingleNode("//h4");
+                        name = nodes.InnerText;
+                        HtmlNode node = docc.DocumentNode.SelectSingleNode("//a");
+                        if (node.Attributes["href"] != null)
+                        {
+                            docc.LoadHtml(client.DownloadString(node.Attributes["href"].Value));
+                            HtmlNodeCollection nodees = docc.DocumentNode.SelectNodes("//div[@class='item']");
+                            if (nodees != null) 
+                            {
+                                foreach (HtmlNode m in nodees)
+                                {
+                                    if(m.InnerText.IndexOf('@') != -1)
+                                    {
+                                        email = m.InnerText.Replace(" ","").Replace("Почта","").Replace("-","");
+                                        Liste.Add(new Parse { Name = name, Email = email });
+                                    }
+                                }
+                            }
+                        }
+                    }      
                 }
             }
         }
