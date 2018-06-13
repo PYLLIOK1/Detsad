@@ -17,10 +17,11 @@ namespace Detsad
         static void Main()
         {
             ParseSite parseSite = new ParseSite();
-            parseSite.Khabarovsk();
-            parseSite.A2b2ru();
-            parseSite.Sevastopol();
-            parseSite.Ote4estvo();
+            //parseSite.Khabarovsk();
+            //parseSite.A2b2ru();
+            //parseSite.Sevastopol();
+            //parseSite.Ote4estvo();
+            parseSite.Izhevsk();
             parseSite.ExcelFile();
         }
     }
@@ -200,6 +201,56 @@ namespace Detsad
                             }
                         }
                     }      
+                }
+            }
+        }
+        public void Izhevsk()
+        {
+            string uri = "http://www.izh.ru";
+            WebClient client = new WebClient() { Encoding = Encoding.UTF8 };
+            string s = client.DownloadString("http://www.izh.ru/i/info/15271.html");
+            client.Dispose();
+            string name = "", email = "";
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(s);
+            HtmlNodeCollection all = doc.DocumentNode.SelectNodes("//div[@class='chldlinkitem']");
+            if (all != null)
+            {
+                foreach (HtmlNode n in all)
+                {
+                    HtmlDocument docc = new HtmlDocument();
+                    docc.LoadHtml(n.InnerHtml);
+                    HtmlNode node = docc.DocumentNode.SelectSingleNode("//a");
+                    if (node.Attributes["href"] != null)
+                    {
+                        docc.LoadHtml(client.DownloadString(uri +node.Attributes["href"].Value));
+                        HtmlNode nodees = docc.DocumentNode.SelectSingleNode("//div[@class='dep_wigets']");
+                        if (nodees != null)
+                        {
+                            HtmlNode nodeess = docc.DocumentNode.SelectSingleNode("//span[@class='dep_name']");
+                            if (nodeess != null)
+                            {
+                                name = nodeess.InnerText;
+                            }
+                            email = nodees.InnerText;
+                            int first = email.IndexOf("Email: ");
+                            int lengh;
+                            if (email.IndexOf(".ru") != -1)
+                            {
+                                lengh = email.IndexOf(".ru") - first + 3;
+                            }
+                            else if (email.IndexOf(".net") != -1)
+                            {
+                                lengh = email.IndexOf(".net") - first + 4;
+                            }
+                            else
+                            {
+                               lengh = email.IndexOf(".com") - first + 4;
+                            }
+                            email = email.Substring(first, lengh).Replace("Email: ", "");
+                            Liste.Add(new Parse { Name = name, Email = email });
+                        }
+                    }
                 }
             }
         }
