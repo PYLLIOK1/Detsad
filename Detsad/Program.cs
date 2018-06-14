@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -14,12 +15,19 @@ namespace Detsad
         static void Main()
         {
             ParseSite parseSite = new ParseSite();
+            Console.WriteLine("выполняется Хабаровск");
             parseSite.Khabarovsk();
+            Console.WriteLine("выполняется сайт a2b2ru");
             parseSite.A2b2ru();
+            Console.WriteLine("выполняется Севостопль");
             parseSite.Sevastopol();
+            Console.WriteLine("выполняется сайт отечество");
             parseSite.Ote4estvo();
+            Console.WriteLine("выполняется Ижевск");
             parseSite.Izhevsk();
+            Console.WriteLine("выполняется Москва");
             parseSite.Moscow();
+            parseSite.Emailres();
             parseSite.ExcelFile();
         }
     }
@@ -323,6 +331,32 @@ namespace Detsad
             }
             Process.Start("d:\\Дет.сад.xlsx");
             Liste.Clear();
+        }
+        public void Emailres()
+        {
+            for (int i = 0; i<= Liste.Count; i++)
+            {
+                string email = Liste[i].Email;
+                int first = email.IndexOf("Email: ");
+                int lengh;
+                if (email.IndexOf(".ru") != -1)
+                {
+                    lengh = email.IndexOf(".ru") - first + 3;
+                }
+                else if (email.IndexOf(".net") != -1)
+                {
+                    lengh = email.IndexOf(".net") - first + 4;
+                }
+                else if (email.IndexOf(".li") != -1)
+                {
+                    lengh = email.IndexOf(".li") - first + 3;
+                }
+                else
+                {
+                    lengh = email.IndexOf(".com") - first + 4;
+                }
+                email = email.Substring(first, lengh);
+            }
         }
     }
     public class Parse
