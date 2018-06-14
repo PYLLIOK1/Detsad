@@ -20,7 +20,6 @@ namespace Detsad
             parseSite.Ote4estvo();
             parseSite.Izhevsk();
             parseSite.Moscow();
-            parseSite.Kurgan();
             parseSite.ExcelFile();
         }
     }
@@ -275,10 +274,6 @@ namespace Detsad
                     }
                 }
             }
-        }
-        public void Kurgan()
-        {
-
         }
         public void ExcelFile()
         {
