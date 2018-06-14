@@ -19,6 +19,8 @@ namespace Detsad
             parseSite.Sevastopol();
             parseSite.Ote4estvo();
             parseSite.Izhevsk();
+            parseSite.Moscow();
+            parseSite.Kurgan();
             parseSite.ExcelFile();
         }
     }
@@ -252,6 +254,29 @@ namespace Detsad
             }
         }
         public void Moscow()
+        {
+            XSSFWorkbook xssfwb;
+            using (FileStream file = new FileStream("detsadmoscow.xlsx", FileMode.Open, FileAccess.Read))
+            {
+                xssfwb = new XSSFWorkbook(file);
+            }
+            ISheet sheet = xssfwb.GetSheetAt(0);
+
+            for (int row = 0; row <= sheet.LastRowNum; row++)
+            {
+                var currentRow = sheet.GetRow(row);
+                if (currentRow != null)
+                {
+                    string name = currentRow.GetCell(0).StringCellValue;
+                    string email = currentRow.GetCell(1).StringCellValue;
+                    if((name != "") && (email != ""))
+                    {
+                        Liste.Add(new Parse { Name = name, Email = email });
+                    }
+                }
+            }
+        }
+        public void Kurgan()
         {
 
         }
