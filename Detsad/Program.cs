@@ -1,14 +1,11 @@
 ﻿using HtmlAgilityPack;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading;
 
 namespace Detsad
 {
@@ -17,10 +14,10 @@ namespace Detsad
         static void Main()
         {
             ParseSite parseSite = new ParseSite();
-            //parseSite.Khabarovsk();
-            //parseSite.A2b2ru();
-            //parseSite.Sevastopol();
-            //parseSite.Ote4estvo();
+            parseSite.Khabarovsk();
+            parseSite.A2b2ru();
+            parseSite.Sevastopol();
+            parseSite.Ote4estvo();
             parseSite.Izhevsk();
             parseSite.ExcelFile();
         }
@@ -253,6 +250,10 @@ namespace Detsad
                     }
                 }
             }
+        }
+        public void Moscow()
+        {
+
         }
         public void ExcelFile()
         {
