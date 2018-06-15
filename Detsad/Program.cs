@@ -334,28 +334,31 @@ namespace Detsad
         }
         public void Emailres()
         {
-            for (int i = 0; i<= Liste.Count; i++)
+            for (int i = 1; i< Liste.Count; i++)
             {
                 string email = Liste[i].Email;
-                int first = email.IndexOf("Email: ");
+                int first = 0;
                 int lengh;
                 if (email.IndexOf(".ru") != -1)
                 {
                     lengh = email.IndexOf(".ru") - first + 3;
+                    email = email.Substring(first, lengh);
                 }
                 else if (email.IndexOf(".net") != -1)
                 {
                     lengh = email.IndexOf(".net") - first + 4;
+                    email = email.Substring(first, lengh);
                 }
                 else if (email.IndexOf(".li") != -1)
                 {
                     lengh = email.IndexOf(".li") - first + 3;
+                    email = email.Substring(first, lengh);
                 }
-                else
+                else if (email.IndexOf(".com") != -1)
                 {
                     lengh = email.IndexOf(".com") - first + 4;
+                    email = email.Substring(first, lengh);
                 }
-                email = email.Substring(first, lengh);
             }
         }
     }
